@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>User Management | EGP</title>
+  <base href="/um">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!-- <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+</head>
+
+<body class="app-bg" onload="getEGPLauncher()">
+  <div id="egp-launcher"></div>
+  <app-root>
+    <div class="spinner">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
+  </app-root>
+
+  <script>
+    function getEGPLauncher() {
+      const ngEl = document.createElement('egp-launcher');
+      const ngElContainer = document.getElementById('egp-launcher')
+      if (ngElContainer.children.length > 0) {
+        ngElContainer.removeChild(ngElContainer.children[0]);
+      }
+      ngElContainer.appendChild(ngEl);
+    }
+  </script>
+  <script src="assets/js/zone.js/0.9.1/zone.min.js"></script>
+  <script src="assets/js/webcomponentsjs/2.2.10/custom-elements-es5-adapter.js"></script>
+</body>
+</html>

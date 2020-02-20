@@ -1,0 +1,15 @@
+<nav class="sidebar" [ngClass]="{sidebarPushRight: isActive, collapsed: collapsed}">
+  <div class="list-group app-menu">
+    <a [routerLink]="['/setting']" [routerLinkActive]="['router-link-active']" class="list-group-item menu-item-link menu-item-link-text">
+      <i class="fa fa-file-o"></i>
+      Drag from
+    </a>
+
+  </div>
+
+  <!-- (click)="toggleCollapsed()" -->
+  <div class="toggle-button" [ngClass]="{collapsed: collapsed}" (click)="toggleCollapsed()">
+    <i class="fa fa-fw fa-angle-double-{{collapsed?'right':'left'}}"></i>&nbsp;
+    <span>{{ 'Collapse Sidebar' | translate }}</span>
+  </div>
+</nav>

@@ -1,0 +1,74 @@
+<div class="page-inner">
+  <header class="page-title-bar">
+    <div class="d-flex flex-column flex-md-row">
+      <p class="lead">
+        <app-page-header [heading]="'Create form template'"></app-page-header>
+      </p>
+      <div class="ml-auto">
+        <button type="button" [routerLink]="['../']" class="btn btn-sm">
+          <i class="fa fa-plus"></i> Back to list
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="listview">
+    <div class="row">
+      <div class="col-3">
+        <div cdkDropList #avaiableControlsList="cdkDropList" [cdkDropListData]="tempControls"
+          [cdkDropListConnectedTo]="[draggedControlsList]" (cdkDropListDropped)="back($event)"
+          class="block-content row spacing-8">
+          <div class="control-item col-md-4 col-sm-12 col-xs-12" *ngFor="let control of tempControls" cdkDrag>
+            <div class="control-item-inner">
+              <i class="fa fa-file-o control-icon"></i>
+              <span>{{control.name}}</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-9">
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td>
+                <div cdkDropList #draggedControlsList="cdkDropList" [cdkDropListData]="controls"
+                  [cdkDropListConnectedTo]="[avaiableControlsList]" (cdkDropListDropped)="drop($event)"
+                  class="block-content row spacing-8">
+                  <div class="control-item col-md-4 col-sm-12 col-xs-12" *ngFor="let control of controls" cdkDrag>
+                    <form class="form" [formGroup]="fromDrag">
+                      <div *ngIf="control.type==='label'">
+                        <label (dblclick)=changeText(control) *ngIf="!control.disabled">
+                          {{control.name}}
+                        </label>
+                        <input class="form-control" type="text" *ngIf="control.disabled"
+                          (dblclick)="changeText(control)" (keyup.enter)="onChangeText(control)" formControlName="name">
+                      </div>
+                      <div *ngIf="control.type==='text'">
+                        <label (dblclick)=changeText(control) *ngIf="!control.disabled">
+                          {{control.name}}
+                        </label>
+                        <input class="form-control" type="text" *ngIf="control.disabled"
+                          (dblclick)="changeText(control)" (keyup.enter)="onChangeText(control)" formControlName="name">
+                        <input class="form-control" type="text">
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </td>
+              <td>
+
+              </td>
+              <td>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+
+      </div>
+    </div>
+  </div>
+
+</div>

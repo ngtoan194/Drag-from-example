@@ -1,0 +1,235 @@
+/* You can add global styles to this file, and also import other style files */
+@import "theme/bootstrap/bootstrap";
+@import "theme/spinner";
+@import "theme/utils";
+@import "theme/rtl";
+@import "theme/responsive";
+
+@media print {
+    .breadcrumb {
+        display: none !important;
+    }
+}
+
+@font-face {
+    font-family: 'OpenSans-Regular';
+    src: url('assets/fonts/opensans-regular.woff') format("truetype");
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: 'OpenSans-Bold';
+    src: url('assets/fonts/opensans-bold.woff') format("truetype");
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'OpenSans-Light';
+    src: url('assets/fonts/opensans-light.woff') format("truetype");
+    font-weight: 200;
+}
+
+@font-face {
+    font-family: 'OpenSans-Semibold';
+    src: url('assets/fonts/opensans-semibold.woff') format("truetype");
+    font-style: italic;
+    font-weight: 400;
+}
+
+body {
+    color: #000;
+    font-family: "OpenSans-Regular","Helvetica Neue",Arial,Helvetica,sans-serif;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    height: 100%;
+    width: auto;
+    margin: 0;
+    padding: 0;
+}
+
+.app-bg {
+    background-color: #f6f7f8 !important;
+}
+
+a {
+    color: #0065ff;
+    text-decoration: none;
+    -webkit-transition: border-bottom-color .2s linear;
+    transition: border-bottom-color .2s linear;
+}
+
+a.menu-item-link {
+    color: #535c69;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+ul
+{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.menu-item-link-text, .menu-collapsed-mode.menu-sliding-mode .menu-item-link-text {
+    position: relative;
+    display: inline-block;
+    font: 15px/25px "OpenSans-Regular","Helvetica Neue",Arial,Helvetica,sans-serif;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.lead {
+    font-size: 1.125rem;
+    font-weight: 400;
+}
+
+
+.flex-grow-1 {
+    -ms-flex-positive: 1 !important;
+    flex-grow: 1 !important;
+}
+
+.circle-icon {
+    background: white;
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+    padding: 0.38rem;
+    border: 1px solid  #212121;
+    border-top-color: rgb(33, 33, 33);
+    border-right-color: rgb(33, 33, 33);
+    border-bottom-color: rgb(33, 33, 33);
+    border-left-color: rgb(33, 33, 33);
+}
+
+.breadcrumb {
+    display: -webkit-box;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 5px 0px;
+    margin-bottom: 0;
+    list-style: none;
+    background-color: transparent;
+    border-radius: 0;
+
+    .breadcrumb-item {
+        font-size: 0.8125rem;
+    }
+        
+}
+
+.border-grey-6 {
+    border-color: #E8E8E8;
+}
+
+.text-avatar {
+    width: 20px;
+    height: 20px;
+    background:rgb(169, 169, 169) none repeat scroll 0% 0%;
+}
+
+table.table.table-condensed {
+    border: 1px solid #dee2e6;
+}
+
+.bg-light {
+    background-color: #fafbfc !important;
+}
+
+.text-dark {
+    color: 
+    #1C2121 !important;
+}
+
+.w-80 {
+    width: 80%;
+}
+
+@media screen and (max-width: 992px) {
+    .w-80 {
+        width: 100%;
+    }
+}
+
+
+
+// Page inner
+.page-inner {
+    .page-title-bar {
+        background-color: #fff;
+        padding: 15px 15px 5px 15px;
+    }
+
+    .dashboard {
+        background-color: #fff;
+        padding: 0px 15px 15px;
+    }
+
+    .listview {
+        background-color: #fff;
+        padding: 0px 15px 15px;
+
+        .listview-actions {
+            height: 65px;
+            .has-search {
+                .form-control-feedback {
+                    position: absolute;
+                    line-height: 0;color: #aaa;
+                    margin-left: 8px;
+                }
+        
+                .form-control {
+                    padding-left: 2.6rem;
+                    border-radius: 10rem;
+                    font-size: .8125rem;
+                }
+            }
+        }
+    }
+
+    .form-block {
+        margin-top: 0;
+        padding: 15px;
+
+        .form-block-item {
+            background-color: #fff;
+            padding: 15px;
+
+            .form-block-item-title {
+                display: block;
+                padding-bottom: 5px;
+                border-bottom: 1px solid #d8d8d8;
+                margin-bottom: 15px;
+
+                span {
+                    font-size: 1rem;
+                }
+            }
+
+            input.has-error {
+                border: 1px solid #a94442;
+            }
+
+            select.has-error {
+                border: 1px solid #a94442;
+            }
+        }
+    }
+     
+    .form-actions.sticky-bottom {
+        position: sticky;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: transparent;
+        color: white;
+        text-align: center;
+        height: 50px;
+        line-height: 50px;
+    }
+}

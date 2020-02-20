@@ -1,0 +1,14 @@
+Deploy OKD:
+
+1. Login:
+  - Get Login Command from OKD console: oc login https://master2.egp.local:8443 --token=N4DWV25RSUssBE7VJ-I4H4c0JWH9OjLM3UPet4B8u7g
+  - Run Login Command
+2. Create application: 
+  - run: oc new-app --name="egp-user-manage-fe" https://domain.com/source code.git --context-dir=source dir
+
+3. Create service:
+  run: oc expose dc/egp-user-manage-fe --port=8080 
+
+4. Check:
+  - run: oc get route
+
