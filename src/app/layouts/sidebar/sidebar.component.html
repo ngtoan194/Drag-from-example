@@ -1,10 +1,15 @@
 <nav class="sidebar" [ngClass]="{sidebarPushRight: isActive, collapsed: collapsed}">
   <div class="list-group app-menu">
-    <a [routerLink]="['/setting']" [routerLinkActive]="['router-link-active']" class="list-group-item menu-item-link menu-item-link-text">
+    <a [routerLink]="['/setting']" [routerLinkActive]="['router-link-active']"
+      class="list-group-item menu-item-link menu-item-link-text">
       <i class="fa fa-file-o"></i>
       Drag from
     </a>
-
+    <a [routerLink]="['/mat-drag-drop']" [routerLinkActive]="['router-link-active']"
+    class="list-group-item menu-item-link menu-item-link-text">
+    <i class="fa fa-file-o"></i>
+    Mat drag drop
+  </a>
   </div>
 
   <!-- (click)="toggleCollapsed()" -->

@@ -1,0 +1,135 @@
+<div class="container">
+    <div class="row">
+        <ngb-tabset>
+            <ngb-tab title="Structures">
+                <ng-template ngbTabContent>
+                    <div class="drag-container">
+                        <div cdkDropList #listTabStructures="cdkDropList" [cdkDropListData]="todo"
+                            cdkDropListSortingDisabled [cdkDropListConnectedTo]="[listLayout]" class="item-list"
+                            (cdkDropListDropped)="drop($event)">
+                            <!-- <div class="item-box" *ngFor="let item of structures" cdkDrag>{{item.name}}</div> -->
+                            <ul>
+                                <li *ngFor="let item of structures" cdkDrag>
+                                    <div class="row" *ngIf="item.type === 'col12'">
+                                        <div class="col-md-12 show-layout">
+                                            <a class="esdev-structure"> {{item.name}}</a>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="item.type === 'col66'">
+                                        <div class="col-md-6 show-layout">
+                                            <a class="esdev-structure">{{item.name}}</a>
+                                        </div>
+                                        <div class="col-md-6 show-layout">
+                                            <a class="esdev-structure">{{item.name}}</a>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="item.type === 'col444'">
+                                        <div class="col-md-4 show-layout">
+                                            <a class="esdev-structure">{{item.name}}</a>
+                                        </div>
+                                        <div class="col-md-4 show-layout">
+                                            <a class="esdev-structure">{{item.name}}</a>
+                                        </div>
+                                        <div class="col-md-4 show-layout">
+                                            <a class="esdev-structure">{{item.name}}</a>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="item.type === 'col3333'">
+                                        <div class="col-md-3 show-layout">
+                                            <a class="esdev-structure">{{item.name}}</a>
+                                        </div>
+                                        <div class="col-md-3 show-layout">
+                                            <a class="esdev-structure">{{item.name}}</a>
+                                        </div>
+                                        <div class="col-md-3 show-layout">
+                                            <a class="esdev-structure">{{item.name}}</a>
+                                        </div>
+                                        <div class="col-md-3 show-layout">
+                                            <a class="esdev-structure">{{item.name}}</a>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="item.type === 'col48'">
+                                        <div class="col-md-4 show-layout">
+                                            <a class="esdev-structure">{{item.name}}</a>
+                                        </div>
+                                        <div class="col-md-8 show-layout">
+                                            <a class="esdev-structure">{{item.name}}</a>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="item.type === 'col84'">
+                                        <div class="col-md-8 show-layout">
+                                            <a class="esdev-structure">{{item.name}}</a>
+                                        </div>
+                                        <div class="col-md-4 show-layout">
+                                            <a class="esdev-structure">{{item.name}}</a>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab>
+                <ng-template ngbTabTitle><b>Blocs</b></ng-template>
+                <ng-template ngbTabContent>
+                    <div class="drag-container">
+                        <div cdkDropList #listOne="cdkDropList" [cdkDropListData]="todo" cdkDropListSortingDisabled
+                            [cdkDropListConnectedTo]="[listTwo,listThree,listFour]" class="item-list"
+                            (cdkDropListDropped)="drop($event)">
+                            <div class="item-box" *ngFor="let item of todo" cdkDrag>{{item.name}}</div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+        </ngb-tabset>
+        <div class="col-md-9">
+            <div class="drag-structures">
+                <div class="section-heading">List Structures</div>
+                <div cdkDropList #listLayout="cdkDropList" [cdkDropListData]="layout"
+                    [cdkDropListConnectedTo]="[listTabStructures]" class="item-list"
+                    (cdkDropListDropped)="drop($event)">
+                    <div class="row" *ngFor="let item of layout" cdkDrag>
+                        <div class="col-md-12 show-layout">
+                            <a class="esdev-structure"> {{item.name}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="drag-container">
+                <div class="section-heading">List 2</div>
+
+                <div cdkDropList #listTwo="cdkDropList" [cdkDropListData]="done"
+                    [cdkDropListConnectedTo]="[listOne,listThree,listFour]" class="item-list"
+                    (cdkDropListDropped)="drop($event)">
+                    <div class="item-box" *ngFor="let item of done" cdkDrag>{{item.name}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="drag-container">
+                <div class="section-heading">List 3</div>
+
+                <div cdkDropList #listThree="cdkDropList" [cdkDropListData]="review"
+                    [cdkDropListConnectedTo]="[listOne,listTwo,listFour]" class="item-list"
+                    (cdkDropListDropped)="drop($event)">
+                    <div class="item-box" *ngFor="let item of review" cdkDrag>{{item.name}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="drag-container">
+                <div class="section-heading">List 4</div>
+
+                <div cdkDropList #listFour="cdkDropList" [cdkDropListData]="test"
+                    [cdkDropListConnectedTo]="[listOne,listTwo,listThree]" class="item-list"
+                    (cdkDropListDropped)="drop($event)">
+                    <div class="item-box" *ngFor="let item of test" cdkDrag>{{item.name}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -25,6 +25,8 @@ import { AppComponent } from './app.component';
 import { HttpErrorInterceptor } from './shared/interceptors/http-error.interceptor';
 import { HeaderComponent } from './layouts/header/header.component';
 import { SidebarComponent } from './layouts/sidebar/sidebar.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+
 
 export const metaReducers: MetaReducer<any>[] = !environment.production
   ? [storeFreeze]
@@ -34,7 +36,7 @@ export const metaReducers: MetaReducer<any>[] = !environment.production
   declarations: [
     AppComponent,
     HeaderComponent,
-    SidebarComponent
+    SidebarComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,7 +49,8 @@ export const metaReducers: MetaReducer<any>[] = !environment.production
     StoreRouterConnectingModule.forRoot(),
     environment.production ? [] : StoreDevtoolsModule.instrument(),
     LanguageTranslationModule,
-    AppRoutingModule
+    AppRoutingModule,
+    DragDropModule
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: AppRouterStateSerializer },

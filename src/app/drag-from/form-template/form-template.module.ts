@@ -15,7 +15,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 @NgModule({
   declarations: [
     TemplatesComponent,
-    TemplateComponent
+    TemplateComponent,
   ],
   imports: [
     LibsModule,
