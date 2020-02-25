@@ -10,12 +10,18 @@ import { TemplateComponent } from './containers/template/template.component';
 import { DynamicFormModule } from 'src/app/shared/modules/dynamic-form/dynamic-form.module';
 import { DropzonesService } from './services/dropzones.service';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { FormControlItemComponent } from './components/form-control-item/form-control-item.component';
+import { FormLayoutItemComponent } from './components/form-layout-item/form-layout-item.component';
+import { DialogControlComponent } from './containers/template/dialog-control/dialog-control.component';
 
 
 @NgModule({
   declarations: [
     TemplatesComponent,
     TemplateComponent,
+    FormControlItemComponent,
+    FormLayoutItemComponent,
+    DialogControlComponent
   ],
   imports: [
     LibsModule,
@@ -24,10 +30,11 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     DragDropModule,
     DynamicFormModule,
     MatNativeDateModule,
-    FormTemplateRoutingModule
-  ], 
+    FormTemplateRoutingModule,
+  ],
   entryComponents: [
-    TemplateComponent
+    TemplateComponent,
+    DialogControlComponent
   ],
   providers: [
     DropzonesService,

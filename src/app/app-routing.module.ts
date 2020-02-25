@@ -13,6 +13,11 @@ const ROUTES: Routes = [
     canActivate: [],
     loadChildren: () => import('./mat-drag-drop/mat-drag-drop.module').then(m => m.MatDragDropModule)
   },
+  {
+    path: 'example-form-io',
+    canActivate: [],
+    loadChildren: () => import('./example-formio/example-formio.module').then(m => m.ExampleFormioModule)
+  },
 ];
 
 @NgModule({

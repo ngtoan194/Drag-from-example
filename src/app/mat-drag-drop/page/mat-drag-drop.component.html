@@ -4,63 +4,63 @@
             <ngb-tab title="Structures">
                 <ng-template ngbTabContent>
                     <div class="drag-container">
-                        <div cdkDropList #listTabStructures="cdkDropList" [cdkDropListData]="todo"
+                        <div cdkDropList #listTabStructures="cdkDropList" [cdkDropListData]="structures"
                             cdkDropListSortingDisabled [cdkDropListConnectedTo]="[listLayout]" class="item-list"
                             (cdkDropListDropped)="drop($event)">
                             <!-- <div class="item-box" *ngFor="let item of structures" cdkDrag>{{item.name}}</div> -->
                             <ul>
                                 <li *ngFor="let item of structures" cdkDrag>
                                     <div class="row" *ngIf="item.type === 'col12'">
-                                        <div class="col-md-12 show-layout">
+                                        <div class="col-md-12 show-structures">
                                             <a class="esdev-structure"> {{item.name}}</a>
                                         </div>
                                     </div>
                                     <div class="row" *ngIf="item.type === 'col66'">
-                                        <div class="col-md-6 show-layout">
+                                        <div class="col-md-6 show-structures">
                                             <a class="esdev-structure">{{item.name}}</a>
                                         </div>
-                                        <div class="col-md-6 show-layout">
+                                        <div class="col-md-6 show-structures">
                                             <a class="esdev-structure">{{item.name}}</a>
                                         </div>
                                     </div>
                                     <div class="row" *ngIf="item.type === 'col444'">
-                                        <div class="col-md-4 show-layout">
+                                        <div class="col-md-4 show-structures">
                                             <a class="esdev-structure">{{item.name}}</a>
                                         </div>
-                                        <div class="col-md-4 show-layout">
+                                        <div class="col-md-4 show-structures">
                                             <a class="esdev-structure">{{item.name}}</a>
                                         </div>
-                                        <div class="col-md-4 show-layout">
+                                        <div class="col-md-4 show-structures">
                                             <a class="esdev-structure">{{item.name}}</a>
                                         </div>
                                     </div>
                                     <div class="row" *ngIf="item.type === 'col3333'">
-                                        <div class="col-md-3 show-layout">
+                                        <div class="col-md-3 show-structures">
                                             <a class="esdev-structure">{{item.name}}</a>
                                         </div>
-                                        <div class="col-md-3 show-layout">
+                                        <div class="col-md-3 show-structures">
                                             <a class="esdev-structure">{{item.name}}</a>
                                         </div>
-                                        <div class="col-md-3 show-layout">
+                                        <div class="col-md-3 show-structures">
                                             <a class="esdev-structure">{{item.name}}</a>
                                         </div>
-                                        <div class="col-md-3 show-layout">
+                                        <div class="col-md-3 show-structures">
                                             <a class="esdev-structure">{{item.name}}</a>
                                         </div>
                                     </div>
                                     <div class="row" *ngIf="item.type === 'col48'">
-                                        <div class="col-md-4 show-layout">
+                                        <div class="col-md-4 show-structures">
                                             <a class="esdev-structure">{{item.name}}</a>
                                         </div>
-                                        <div class="col-md-8 show-layout">
+                                        <div class="col-md-8 show-structures">
                                             <a class="esdev-structure">{{item.name}}</a>
                                         </div>
                                     </div>
                                     <div class="row" *ngIf="item.type === 'col84'">
-                                        <div class="col-md-8 show-layout">
+                                        <div class="col-md-8 show-structures">
                                             <a class="esdev-structure">{{item.name}}</a>
                                         </div>
-                                        <div class="col-md-4 show-layout">
+                                        <div class="col-md-4 show-structures">
                                             <a class="esdev-structure">{{item.name}}</a>
                                         </div>
                                     </div>
@@ -89,9 +89,74 @@
                 <div cdkDropList #listLayout="cdkDropList" [cdkDropListData]="layout"
                     [cdkDropListConnectedTo]="[listTabStructures]" class="item-list"
                     (cdkDropListDropped)="drop($event)">
-                    <div class="row" *ngFor="let item of layout" cdkDrag>
-                        <div class="col-md-12 show-layout">
-                            <a class="esdev-structure"> {{item.name}}</a>
+                    <div *ngFor="let item of layout" cdkDrag>
+                        <div class="row" *ngIf="item.type === 'col12'">
+                            <div class="col-md-12 show-layout">
+                                <span class="esdev-structure" (click)="addLabel(item)">Label</span>
+                                <span class="esdev-structure" (click)="addInput(item)">Input text</span>
+                                <span class="esdev-structure" (click)="addSelect(item)">Select</span>
+                                <span class="esdev-structure" (click)="addButton(item)">Button</span>
+                            </div>
+                            <!-- <div class="col-md-12 show-layout item-list" cdkDropList #listTwo="cdkDropList"
+                                [cdkDropListData]="item.done" [cdkDropListConnectedTo]="[listOne,listThree,listFour]"
+                                (cdkDropListDropped)="drop($event)">
+                                <div class="item-box" *ngFor="let itemDone of item.done" cdkDrag>{{itemDone.name}}</div>
+                            </div> -->
+                        </div>
+                        <div class="row" *ngIf="item.type === 'col66'">
+                            <div class="col-md-6 show-layout">
+                                <span class="esdev-structure" (click)="addLabel(item)">Label</span>
+                                <span class="esdev-structure" (click)="addInput(item)">Input text</span>
+                                <span class="esdev-structure" (click)="addSelect(item)">Select</span>
+                                <span class="esdev-structure" (click)="addButton(item)">Button</span>
+                            </div>
+                            <div class="col-md-6 show-layout">
+                                <span class="esdev-structure" (click)="addLabel(item)">Label</span>
+                                <span class="esdev-structure" (click)="addInput(item)">Input text</span>
+                                <span class="esdev-structure" (click)="addSelect(item)">Select</span>
+                                <span class="esdev-structure" (click)="addButton(item)">Button</span>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="item.type === 'col444'">
+                            <div class="col-md-4 show-layout">
+                                <a class="esdev-structure">{{item.name}}</a>
+                            </div>
+                            <div class="col-md-4 show-layout">
+                                <a class="esdev-structure">{{item.name}}</a>
+                            </div>
+                            <div class="col-md-4 show-layout">
+                                <a class="esdev-structure">{{item.name}}</a>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="item.type === 'col3333'">
+                            <div class="col-md-3 show-layout">
+                                <a class="esdev-structure">{{item.name}}</a>
+                            </div>
+                            <div class="col-md-3 show-layout">
+                                <a class="esdev-structure">{{item.name}}</a>
+                            </div>
+                            <div class="col-md-3 show-layout">
+                                <a class="esdev-structure">{{item.name}}</a>
+                            </div>
+                            <div class="col-md-3 show-layout">
+                                <a class="esdev-structure">{{item.name}}</a>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="item.type === 'col48'">
+                            <div class="col-md-4 show-layout">
+                                <a class="esdev-structure">{{item.name}}</a>
+                            </div>
+                            <div class="col-md-8 show-layout">
+                                <a class="esdev-structure">{{item.name}}</a>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="item.type === 'col84'">
+                            <div class="col-md-8 show-layout">
+                                <a class="esdev-structure">{{item.name}}</a>
+                            </div>
+                            <div class="col-md-4 show-layout">
+                                <a class="esdev-structure">{{item.name}}</a>
+                            </div>
                         </div>
                     </div>
                 </div>

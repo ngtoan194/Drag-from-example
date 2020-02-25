@@ -12,10 +12,6 @@ const ROUTES: Routes = [
       { 
         path: 'form-template',
         loadChildren: () => import('./form-template/form-template.module').then(m => m.FormTemplateModule) 
-      },
-      { 
-        path: 'mat-drag-drop',
-        loadChildren: () => import('./form-template/form-template.module').then(m => m.FormTemplateModule) 
       }
     ]
   }

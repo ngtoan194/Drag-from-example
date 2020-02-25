@@ -61,11 +61,22 @@ ngb-tabset {
   max-width: 280px;
 }
 
-.show-layout {
-  background: #ECF3FC;
+.show-structures {
+  background: #ecf3fc;
   height: 30px;
-  border: 1px dashed #8AB7EC;
-  color: #8AB7EC;
+  border: 1px dashed #8ab7ec;
+  color: #8ab7ec;
+  padding: 0 10px;
+  display: block;
+  border-radius: 2px;
+  margin: 0px 0px 6px 0px;
+}
+
+.show-layout {
+  background: #ecf3fc;
+  height: 69px;
+  border: 1px dashed #8ab7ec;
+  color: #8ab7ec;
   padding: 0 10px;
   display: block;
   border-radius: 2px;
@@ -81,4 +92,8 @@ ngb-tabset {
   background-color: #e9ecef;
   padding: 15px;
   border-radius: 5px;
+}
+
+span.esdev-structure {
+  margin: 18px;
 }

@@ -48,7 +48,7 @@ export class MatDragDropComponent implements OnInit {
         event.previousIndex,
         event.currentIndex);
 
-
+      console.log('layout', this.layout);
       this.structures = [
         { id: 1, type: 'col12', name: '', disabled: false },
         { id: 2, type: 'col66', name: '', disabled: false },
@@ -67,6 +67,20 @@ export class MatDragDropComponent implements OnInit {
         { id: 6, type: 'empty', name: '', disabled: false },
       ];
     }
+  }
+
+  addLabel(item) {
+    debugger
+  }
+
+  addInput(item) {
+
+  }
+  addSelect(item) {
+
+  }
+  addButton(item) {
+
   }
 
 }

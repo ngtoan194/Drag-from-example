@@ -1,137 +1,301 @@
-import { Component, OnInit } from '@angular/core';
-import { CdkDragDrop, moveItemInArray, copyArrayItem, transferArrayItem } from '@angular/cdk/drag-drop';
+import { Component } from '@angular/core';
 import * as _ from 'lodash';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { CdkDragDrop, moveItemInArray, copyArrayItem, transferArrayItem } from '@angular/cdk/drag-drop';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { DialogControlComponent } from './dialog-control/dialog-control.component';
 
 @Component({
   selector: 'app-template',
   templateUrl: './template.component.html',
   styleUrls: ['./template.component.scss']
 })
-export class TemplateComponent implements OnInit {
+export class TemplateComponent {
 
-  constructor(
-    private fb: FormBuilder,
-  ) {
-    this.buildForm();
-  }
-
-  fromDrag: FormGroup;
-
-  isEdit: boolean = false;
-
-  // FORM
-  // build form
-  private buildForm() {
-    this.fromDrag = this.fb.group({
-      disabled: [''],
-      label: [''],
-      name: [''],
-      options: [''],
-      placeholder: [''],
-      type: [''],
-      validation: [''],
-      value: [''],
-    });
-  }
-
-  // return form
-  get f() {
-    return this.fromDrag.controls;
-  }
-  // END FORM
-
-  tempControls = [
-    { id: 1, type: 'date', name: 'Date', disabled: false },
-    { id: 2, type: 'label', name: 'Label', disabled: false },
-    { id: 3, type: 'text', name: 'Input text', disabled: false },
-    { id: 4, type: 'select', name: 'Select', disabled: false },
-    { id: 5, type: 'button', name: 'Button', disabled: false }
+  controls: any[] = [
+    { 'id': 1, 'name': 'textField', 'type': 'text', 'title': 'Text Field', 'label': 'Text Field', 'class': 'fa fa-text-width', 'disabled': false, },
+    { 'id': 2, 'name': 'select', 'type': 'select', 'title': 'Select', 'label': 'Select', 'class': 'fa fa-th-list', 'disabled': false, },
+    { 'id': 3, 'name': 'button', 'type': 'submit', 'title': 'Submit', 'label': 'Submit', 'class': 'fa fa-stop', 'disabled': false, },
   ];
 
-  controls = [];
+  controlsDrop: any[] = [
+    { 'id': 4, 'name': 'textArea', 'type': 'text', 'title': 'Text Area', 'label': 'Text Area', 'class': 'fa fa-font', 'disabled': false, },
+    { 'id': 5, 'name': 'number', 'type': 'text', 'title': 'Number', 'label': 'Number', 'class': 'fa fa-hashtag', 'disabled': false, },
+    { 'id': 6, 'name': 'password', 'type': 'password', 'title': 'Password', 'label': 'Password', 'class': 'fa fa-asterisk', 'disabled': false, },
+    { 'id': 7, 'name': 'checkbox', 'type': 'checkbox', 'title': 'Checkbox', 'label': 'Checkbox', 'class': 'fa fa-check-square', 'disabled': false, },
+    { 'id': 8, 'name': 'date', 'type': 'text', 'title': 'Date', 'label': 'Date/Time', 'class': 'fa fa-calendar', 'disabled': false, },
+  ];
 
-  data = [];
+  layouts: any[] = [
+    {
+      'layoutId': 1,
+      'layoutType': '12',
+      'cols': [
+        {
+          'colId': 1,
+          'colType': 'col-12',
+          'control': null
+        }
+      ]
+    },
+    {
+      'layoutId': 2,
+      'layoutType': '6-6',
+      'cols': [
+        {
+          'colId': 1,
+          'colType': 'col-6',
+          'control': null
+        },
+        {
+          'colId': 2,
+          'colType': 'col-6',
+          'control': null
+        }
+      ]
+    },
+    {
+      'layoutId': 3,
+      'layoutType': '4-4-4',
+      'cols': [
+        {
+          'colId': 1,
+          'colType': 'col-4',
+          'control': null
+        },
+        {
+          'colId': 2,
+          'colType': 'col-4',
+          'control': null
+        },
+        {
+          'colId': 3,
+          'colType': 'col-4',
+          'control': null
+        }
+      ]
+    },
+    {
+      'layoutId': 4,
+      'layoutType': '3-3-3-3',
+      'cols': [
+        {
+          'colId': 1,
+          'colType': 'col-3',
+          'control': null
+        },
+        {
+          'colId': 2,
+          'colType': 'col-3',
+          'control': null
+        },
+        {
+          'colId': 3,
+          'colType': 'col-3',
+          'control': null
+        },
+        {
+          'colId': 4,
+          'colType': 'col-3',
+          'control': null
+        }
+      ]
+    },
+    {
+      'layoutId': 5,
+      'layoutType': '4-8',
+      'cols': [
+        {
+          'colId': 1,
+          'colType': 'col-4',
+          'control': null
+        },
+        {
+          'colId': 2,
+          'colType': 'col-8',
+          'control': null
+        }
+      ]
+    },
+    {
+      'layoutId': 6,
+      'layoutType': '8-4',
+      'cols': [
+        {
+          'colId': 1,
+          'colType': 'col-8',
+          'control': null
+        },
+        {
+          'colId': 2,
+          'colType': 'col-4',
+          'control': null
+        }
+      ]
+    },
+  ];
+
+  droppedLayouts: any[] = [];
+
+  data: any[] = [];
+
+  constructor(
+    public dialog: MatDialog
+  ) {
+  }
 
   ngOnInit(): void {
+
   }
 
-  get getControl(): string[] {
-    return this.tempControls.map(control => control.name);
+  newLayout() {
+    return this.layouts = [
+      {
+        'layoutId': 1,
+        'layoutType': '12',
+        'cols': [
+          {
+            'colId': 1,
+            'colType': 'col-12',
+            'control': null
+          }
+        ]
+      },
+      {
+        'layoutId': 2,
+        'layoutType': '6-6',
+        'cols': [
+          {
+            'colId': 1,
+            'colType': 'col-6',
+            'control': null
+          },
+          {
+            'colId': 2,
+            'colType': 'col-6',
+            'control': null
+          }
+        ]
+      },
+      {
+        'layoutId': 3,
+        'layoutType': '4-4-4',
+        'cols': [
+          {
+            'colId': 1,
+            'colType': 'col-4',
+            'control': null
+          },
+          {
+            'colId': 2,
+            'colType': 'col-4',
+            'control': null
+          },
+          {
+            'colId': 3,
+            'colType': 'col-4',
+            'control': null
+          }
+        ]
+      },
+      {
+        'layoutId': 4,
+        'layoutType': '3-3-3-3',
+        'cols': [
+          {
+            'colId': 1,
+            'colType': 'col-3',
+            'control': null
+          },
+          {
+            'colId': 2,
+            'colType': 'col-3',
+            'control': null
+          },
+          {
+            'colId': 3,
+            'colType': 'col-3',
+            'control': null
+          },
+          {
+            'colId': 4,
+            'colType': 'col-3',
+            'control': null
+          }
+        ]
+      },
+      {
+        'layoutId': 5,
+        'layoutType': '4-8',
+        'cols': [
+          {
+            'colId': 1,
+            'colType': 'col-4',
+            'control': null
+          },
+          {
+            'colId': 2,
+            'colType': 'col-8',
+            'control': null
+          }
+        ]
+      },
+      {
+        'layoutId': 6,
+        'layoutType': '8-4',
+        'cols': [
+          {
+            'colId': 1,
+            'colType': 'col-8',
+            'control': null
+          },
+          {
+            'colId': 2,
+            'colType': 'col-4',
+            'control': null
+          }
+        ]
+      },
+    ];
   }
 
-  onControlDrop(event: CdkDragDrop<any[]>) {
-    moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-  }
-
-  drop(event: CdkDragDrop<string[]>) {
+  drop(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      let currentItem: any = this.tempControls[event.previousIndex];
-      this.data.push(1)
-      currentItem.idControl = this.data.length
-
-      // this.data.push(
-      //   {
-      //     id: this.data.length + 1,
-      //     isabled: '',
-      //     label: '',
-      //     name: currentItem.name,
-      //     options: '',
-      //     placeholder: '',
-      //     type: currentItem.type,
-      //     validation: '',
-      //     value: '',
-      //   }
-      // )
-      if (_.find(event.container.data, currentItem)) {
-        console.log('dssssssssssss', currentItem);
-      }
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
-        event.currentIndex
-      );
-      // copyArrayItem(
-      //   this.tempControls,
-      //   event.container.data,
-      //   event.previousIndex,
-      //   event.currentIndex
-      // );
-
-      this.tempControls = [
-        { id: 1, type: 'date', name: 'Date', disabled: false },
-        { id: 2, type: 'label', name: 'Label', disabled: false },
-        { id: 3, type: 'text', name: 'Input text', disabled: false },
-        { id: 4, type: 'select', name: 'Select', disabled: false },
-        { id: 5, type: 'button', name: 'Button', disabled: false }
-      ];
-
-      console.log('currentItem', currentItem);
-      console.log('data', this.data);
-      console.log('controls', this.controls);
+        event.currentIndex);
     }
+    this.newLayout();
+    console.log("droppedLayouts: ", this.droppedLayouts);
   }
 
-  changeText(control) {
-    this.fromDrag.controls['name'].setValue(control.name);
-    this.controls.forEach(item => {
-      if (item.idControl === control.idControl) {
-        item.disabled = !item.disabled;
+  addControl(layout, col, control) {
+    this.droppedLayouts[layout].cols[col].control = control;
+  }
+
+  editControl(layout, col, control) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = { layout, col, control };
+    const dialogRef = this.dialog.open(DialogControlComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(result => {
+      debugger
+      if (result.control) {
+        debugger
+        this.droppedLayouts[result.layout].cols[result.col].control = result.control;
       }
-    })
+
+    });
   }
 
-  onChangeText(control) {
-    this.controls.forEach(item => {
-      if (item.idControl === control.idControl) {
-        item.name = this.fromDrag.value.name ? this.fromDrag.value.name : 'Input text';
-        item.disabled = !item.disabled;
-      }
-    })
-    this.fromDrag.controls['name'].setValue('');
+  verifyControl(layout, col, control) {
+    control.disabled = !control.disabled
   }
 
+  removeControl(layout, col, control) {
+    this.droppedLayouts[layout].cols[col].control = undefined;
+  }
 }

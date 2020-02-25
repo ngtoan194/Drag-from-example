@@ -26,7 +26,8 @@ import { HttpErrorInterceptor } from './shared/interceptors/http-error.intercept
 import { HeaderComponent } from './layouts/header/header.component';
 import { SidebarComponent } from './layouts/sidebar/sidebar.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-
+import { FormioModule } from 'angular-formio';
+import { ListItemComponent } from './shared/modules/list-item/list-item.component';
 
 export const metaReducers: MetaReducer<any>[] = !environment.production
   ? [storeFreeze]
@@ -37,6 +38,7 @@ export const metaReducers: MetaReducer<any>[] = !environment.production
     AppComponent,
     HeaderComponent,
     SidebarComponent,
+    ListItemComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,7 +52,8 @@ export const metaReducers: MetaReducer<any>[] = !environment.production
     environment.production ? [] : StoreDevtoolsModule.instrument(),
     LanguageTranslationModule,
     AppRoutingModule,
-    DragDropModule
+    DragDropModule,
+    FormioModule,
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: AppRouterStateSerializer },
