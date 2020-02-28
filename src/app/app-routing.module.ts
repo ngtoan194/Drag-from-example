@@ -6,7 +6,7 @@ const ROUTES: Routes = [
   {
     path: 'setting',
     canActivate: [],
-    loadChildren: () => import('./drag-from/setting.module').then(m => m.SettingModule)
+    loadChildren: () => import('./drag-form/setting.module').then(m => m.SettingModule)
   },
   {
     path: 'mat-drag-drop',
@@ -18,6 +18,16 @@ const ROUTES: Routes = [
     canActivate: [],
     loadChildren: () => import('./example-formio/example-formio.module').then(m => m.ExampleFormioModule)
   },
+  {
+    path: 'multi-level-drag-drop',
+    canActivate: [],
+    loadChildren: () => import('./multi-level-drag-drop/multi-level-drag-drop.module').then(m => m.MultiLevelDragDropModule)
+  },
+  {
+    path: 'create-form',
+    canActivate: [],
+    loadChildren: () => import('./create-form/create-form.module').then(m => m.CreateFormModule)
+  }
 ];
 
 @NgModule({

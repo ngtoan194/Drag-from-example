@@ -1,0 +1,199 @@
+.formio-form {
+  position: relative;
+  min-height: 80px;
+}
+
+.form-layouts {
+  padding: 15px;
+  .layout-item {
+    margin-bottom: 15px;
+    padding: 10px 0px;
+    background-color: #ffffff;
+    border: 1px solid #dcdcdc;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border 0.2s ease-in-out;
+    position: relative;
+  }
+  .layout-item:hover {
+    border: 2px solid #28a745;
+    cursor: move;
+  }
+}
+
+.form-row-layout {
+  background: #ecf3fc;
+  min-height: 30px;
+  border: 1px dashed #8ab7ec;
+  color: #8ab7ec;
+  padding: 0 10px;
+  display: block;
+  border-radius: 2px;
+}
+
+.control-item {
+  position: relative;
+  // min-height: 125px;
+  .layout-action {
+    position: absolute;
+    z-index: 10;
+    right: 12px;
+    top: -20px;
+    padding-top: 20px;
+  }
+}
+
+.form-row-layout-cols {
+  // background: #ecf3fc;
+  min-height: 39px;
+  // border: 1px dashed #8ab7ec;
+  // color: #8ab7ec;
+  background-color: #ebddf1;
+  border-color: #e2cfec;
+  padding: 0 10px;
+  display: block;
+  border-radius: 2px;
+}
+
+.d-inline-block {
+  margin-top: 4px;
+}
+
+.drag-container {
+  padding: 10px;
+  border: dotted 2px #e8e8e8;
+}
+
+.component-btn-group {
+  display: none;
+}
+
+.component-btn-group {
+  position: absolute;
+  right: 0px;
+  z-index: 9999;
+  margin-top: 0px;
+}
+
+.show-component-btn-group:hover .component-btn-group {
+  display: block;
+}
+
+.btn-group-xxs > .btn,
+.btn-xxs,
+.component-btn-group .component-settings-button {
+  padding: 2px 2px;
+  font-size: 10px;
+  line-height: 1.2em;
+  border-radius: 0;
+  width: 18px;
+  height: 18px;
+}
+
+.component-btn-group .component-settings-button {
+  float: right;
+  z-index: 1001;
+  margin: 4px 4px 0 0;
+  z-index: 1001;
+  -webkit-box-shadow: 0 0 10px 1px rgba(48, 113, 169, 0.6);
+  -moz-box-shadow: 0 0 10px 1px rgba(48, 113, 169, 0.6);
+  box-shadow: 0 0 10px 1px rgba(48, 113, 169, 0.6);
+}
+
+.component-settings-button-paste {
+  display: none;
+}
+
+.fa {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.btn-secondary {
+  color: #fff;
+  background-color: #373a3c;
+  border-color: #373a3c;
+}
+
+.btn-danger {
+  color: #fff;
+  background-color: #ff0039;
+  border-color: #ff0039;
+}
+
+.control-btn-group {
+  position: absolute;
+  z-index: 1000;
+  margin-top: 5px;
+  left: 25px;
+  display: none;
+}
+
+.show-control-actions:hover .control-btn-group {
+  display: block;
+}
+
+.form-group {
+  margin-bottom: 0px !important;
+  padding-bottom: 18px;
+}
+
+.btn-block {
+  display: inline;
+  margin: 3px;
+}
+
+.layout-item {
+  margin-bottom: 15px;
+  padding: 10px 0px;
+  background-color: #ffffff;
+  border: 1px solid #dcdcdc;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border 0.2s ease-in-out;
+  position: relative;
+  width: 500px;
+  margin: 5px;
+}
+
+.layout-item:hover {
+  border: 2px solid #28a745;
+  cursor: move;
+}
+
+.btn-secondary {
+  color: #fff;
+  background-color: #373a3c;
+  border-color: #373a3c;
+}
+
+.btn-danger {
+  color: #fff;
+  background-color: #ff0039;
+  border-color: #ff0039;
+}
+
+.btn-group-xxs > .btn,
+.btn-xxs,
+.component-btn-group .component-settings-button {
+  padding: 2px 2px;
+  font-size: 10px;
+  line-height: 1.2em;
+  border-radius: 0;
+  width: 18px;
+  height: 18px;
+}
+
+.component-btn-group .component-settings-button {
+  float: right;
+  z-index: 1001;
+  margin: 4px 4px 0 0;
+  z-index: 1001;
+  -webkit-box-shadow: 0 0 10px 1px rgba(48, 113, 169, 0.6);
+  -moz-box-shadow: 0 0 10px 1px rgba(48, 113, 169, 0.6);
+  box-shadow: 0 0 10px 1px rgba(48, 113, 169, 0.6);
+}

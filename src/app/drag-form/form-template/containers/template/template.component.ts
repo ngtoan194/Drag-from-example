@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import * as _ from 'lodash';
 import { CdkDragDrop, moveItemInArray, copyArrayItem, transferArrayItem } from '@angular/cdk/drag-drop';
 import { MatDialog, MatDialogConfig } from '@angular/material';
-import { DialogControlComponent } from './dialog-control/dialog-control.component';
+import { DialogControlComponent } from 'src/app/drag-form/form-template/containers/template/dialog-control/dialog-control.component';
 
 @Component({
   selector: 'app-template',
@@ -23,6 +23,9 @@ export class TemplateComponent {
     { 'id': 6, 'name': 'password', 'type': 'password', 'title': 'Password', 'label': 'Password', 'class': 'fa fa-asterisk', 'disabled': false, },
     { 'id': 7, 'name': 'checkbox', 'type': 'checkbox', 'title': 'Checkbox', 'label': 'Checkbox', 'class': 'fa fa-check-square', 'disabled': false, },
     { 'id': 8, 'name': 'date', 'type': 'text', 'title': 'Date', 'label': 'Date/Time', 'class': 'fa fa-calendar', 'disabled': false, },
+    // { 'id': 9, 'name': 'copy', 'type': 'copy', 'title': 'Copy', 'label': 'Copy', 'class': 'fa fa-clone', 'disabled': false, },
+    { 'id': 9, 'name': 'paste', 'type': 'paste', 'title': 'paste', 'label': 'Paste', 'class': 'fa fa-files-o', 'disabled': false, },
+    { 'id': 10, 'name': 'table', 'type': 'table', 'title': 'Table', 'label': 'Table', 'class': 'fa fa-th', 'disabled': false, },
   ];
 
   layouts: any[] = [
@@ -138,8 +141,10 @@ export class TemplateComponent {
 
   data: any[] = [];
 
+  dataCopy = {};
+
   constructor(
-    public dialog: MatDialog
+    private dialog: MatDialog
   ) {
   }
 
@@ -273,29 +278,44 @@ export class TemplateComponent {
   }
 
   addControl(layout, col, control) {
-    this.droppedLayouts[layout].cols[col].control = control;
+    if (control.name === 'paste') {
+      this.droppedLayouts[layout].cols[col].control = this.dataCopy;
+    } else {
+      this.droppedLayouts[layout].cols[col].control = control;
+    }
   }
 
   editControl(layout, col, control) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = { layout, col, control };
     const dialogRef = this.dialog.open(DialogControlComponent, dialogConfig);
-
     dialogRef.afterClosed().subscribe(result => {
-      debugger
       if (result.control) {
-        debugger
         this.droppedLayouts[result.layout].cols[result.col].control = result.control;
       }
 
     });
   }
 
-  verifyControl(layout, col, control) {
-    control.disabled = !control.disabled
+  copyControl(layout, col, control) {
+    this.dataCopy = control;
   }
 
+
   removeControl(layout, col, control) {
-    this.droppedLayouts[layout].cols[col].control = undefined;
+    this.droppedLayouts[layout].cols[col].control = null;
+  }
+
+  copyLayout(layoutIndex) {
+    let layout = this.droppedLayouts[layoutIndex];
+
+    this.droppedLayouts.splice(layoutIndex, -1, this.droppedLayouts[layoutIndex]);
+
+    // this.droppedLayouts.push(this.droppedLayouts[layoutIndex]);
+    console.log('droppedLayouts', this.droppedLayouts)
+  }
+
+  removeLayout(layout) {
+    this.droppedLayouts.splice(layout, 1);
   }
 }

@@ -13,6 +13,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FormControlItemComponent } from './components/form-control-item/form-control-item.component';
 import { FormLayoutItemComponent } from './components/form-layout-item/form-layout-item.component';
 import { DialogControlComponent } from './containers/template/dialog-control/dialog-control.component';
+import { ControlDirectiveComponent } from 'src/app/shared/modules/control-directive/control-directive.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { DialogControlComponent } from './containers/template/dialog-control/dia
     TemplateComponent,
     FormControlItemComponent,
     FormLayoutItemComponent,
-    DialogControlComponent
+    DialogControlComponent,
+    ControlDirectiveComponent
   ],
   imports: [
     LibsModule,
@@ -34,7 +36,8 @@ import { DialogControlComponent } from './containers/template/dialog-control/dia
   ],
   entryComponents: [
     TemplateComponent,
-    DialogControlComponent
+    DialogControlComponent,
+    ControlDirectiveComponent
   ],
   providers: [
     DropzonesService,

@@ -17,7 +17,7 @@ li {
     min-height: 20px;
 
     &.parent {
-      border: nones;
+      border: none
     }
   }
 
@@ -44,31 +44,4 @@ li {
 .cdk-drag-placeholder {
   opacity: 0;
   height: 0;
-}
-
-.form-layouts {
-  padding: 15px;
-  .layout-item {
-    margin-bottom: 15px;
-    padding: 10px 0px;
-    background-color: #ffffff;
-    border: 1px solid #dcdcdc;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: border 0.2s ease-in-out;
-    position: relative;
-  }
-  .layout-item:hover {
-    border: 2px solid #28a745;
-    cursor: move;
-  }
-}
-.form-row-layout {
-  background: #ecf3fc;
-  min-height: 30px;
-  border: 1px dashed #8ab7ec;
-  color: #8ab7ec;
-  padding: 0 10px;
-  display: block;
-  border-radius: 2px;
 }

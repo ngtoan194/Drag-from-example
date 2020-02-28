@@ -27,7 +27,6 @@ import { HeaderComponent } from './layouts/header/header.component';
 import { SidebarComponent } from './layouts/sidebar/sidebar.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FormioModule } from 'angular-formio';
-import { ListItemComponent } from './shared/modules/list-item/list-item.component';
 
 export const metaReducers: MetaReducer<any>[] = !environment.production
   ? [storeFreeze]
@@ -38,7 +37,6 @@ export const metaReducers: MetaReducer<any>[] = !environment.production
     AppComponent,
     HeaderComponent,
     SidebarComponent,
-    ListItemComponent,
   ],
   imports: [
     BrowserModule,
