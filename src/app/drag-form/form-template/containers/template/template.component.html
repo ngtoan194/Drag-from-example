@@ -5,139 +5,17 @@
         <app-page-header [heading]="'Create form template'"></app-page-header>
       </p>
       <div class="ml-auto">
-        <button type="button" [routerLink]="['../']" class="btn btn-sm">
-          <i class="fa fa-plus"></i> Back to list
+        <button type="button" class="btn btn-sm btn-success">
+          <i class="fa fa-save"></i> Save template
         </button>
       </div>
     </div>
   </header>
 
   <div class="listview">
-    <div class="row" cdkDropListGroup>
-      <div class="col-3">
-        <div cdkDropList [cdkDropListData]="layouts" class="form-layouts" cdkDropListSortingDisabled
-          (cdkDropListDropped)="drop($event)">
-          <div class="clearfix layout-item" *ngFor="let layout of layouts" cdkDrag>
-            <div class="container">
-              <div class="row">
-                <div *ngFor="let col of layout.cols;" class="{{col.colType}}">
-                  <span class="form-row-layout"></span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-9">
-        <div cdkDropList [cdkDropListData]="droppedLayouts" class="form-layouts" (cdkDropListDropped)="drop($event)">
-          <div class="hint" *ngIf="droppedLayouts.length===0">
-            <p>Drop here!</p>
-          </div>
-          <div class="clearfix layout-dropped-item" *ngFor="let layout of droppedLayouts; let layoutIndex=index;"
-            cdkDrag cdkDragLockAxis="y">
-            <div class="component-btn-group">
-              <div class="btn btn-xxs btn-danger component-settings-button component-settings-button-remove"
-                placement="bottom" ngbTooltip="Remove" (click)="removeLayout(layoutIndex)">
-                <i class="fa fa-remove"></i>
-              </div>
-              <div class="btn btn-xxs btn-default component-settings-button component-settings-button-copy"
-                placement="bottom" ngbTooltip="Copy" (click)="copyLayout(layoutIndex)">
-                <i class="fa fa-copy"></i>
-              </div>
-              <div class="btn btn-xxs btn-secondary component-settings-button component-settings-button-edit"
-                placement="bottom" ngbTooltip="Edit">
-                <i class="fa fa-cog"></i>
-              </div>
-              <div class="btn btn-xxs btn-default component-settings-button component-settings-button-move"
-                placement="bottom" ngbTooltip="Move">
-                <i class="fa fa-arrows"></i>
-              </div>
-            </div>
-            <!-- <div class="layout-action">
-              <i class="fa fa-arrows" aria-hidden="true" (click)="copyLayout(layoutIndex)"></i>
-              <i class="fa fa-clone" aria-hidden="true" (click)="copyLayout(layoutIndex)"></i>
-              <i class="fa fa-trash-o" aria-hidden="true" (click)="removeLayout(layoutIndex)"></i>
-            </div> -->
-            <div class="">
-              <div class="row">
-                <div *ngFor="let col of layout.cols; let colIndex=index;" class="{{col.colType}}">
-                  <div class="builder-components drag-container formio-builder-components">
-                    <!-- Form controls-->
-                    <div class="text-center" [ngClass]="col.control!==null ? 'form-group' : 'form-row-layout-cols'">
-                      <div class=" text-left control-block" *ngIf="col.control">
-                        <app-control-directive [col]="col"></app-control-directive>
-                        <!-- <span class="control-actions">
-                          <i class="fa fa-cog" aria-hidden="true"
-                            (click)="editControl(layoutIndex, colIndex, col.control)"></i>
-                          <i class="fa fa-clone" aria-hidden="true"
-                            (click)="copyControl(layoutIndex, colIndex, col.control)"></i>
-                          <i class="fa fa-times" aria-hidden="true"
-                            (click)="removeControl(layoutIndex, colIndex, col.control)"></i>
-                        </span> -->
-                      </div>
-                      <div class="control-actions">
-                        <div class="control-btn-group">
-                          <div
-                            class="btn btn-xxs btn-secondary component-settings-button component-settings-button-edit"
-                            placement="bottom" ngbTooltip="Edit"
-                            (click)="editControl(layoutIndex, colIndex, col.control)">
-                            <i class="fa fa-cog"></i>
-                          </div>
-                          <div class="btn btn-xxs btn-default component-settings-button component-settings-button-copy"
-                            placement="bottom" ngbTooltip="Copy"
-                            (click)="copyControl(layoutIndex, colIndex, col.control)">
-                            <i class="fa fa-copy"></i>
-                          </div>
-                          <div class="btn btn-xxs btn-danger component-settings-button component-settings-button-remove"
-                            placement="bottom" ngbTooltip="Remove"
-                            (click)="removeControl(layoutIndex, colIndex, col.control)">
-                            <i class="fa fa-remove"></i>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div ngbDropdown class="d-inline-block" *ngIf="!col.control">
-                        <span *ngFor="let control of controls; let controlIndex=index;">
-                          <i class={{control.class}} aria-hidden="true" style="margin: 5px;" placement="bottom"
-                            ngbTooltip="{{control.label}}" (click)="addControl(layoutIndex, colIndex, control)"></i>
-                        </span>
-                        <div ngbDropdown class="d-inline-block">
-                          <i class="fa fa-caret-down" aria-hidden="true" id="dropdownControls" ngbDropdownToggle></i>
-                          <div ngbDropdownMenu aria-labelledby="dropdownControls">
-                            <button *ngFor="let control of controlsDrop" ngbDropdownItem
-                              (click)="addControl(layoutIndex, colIndex, control)">
-                              <i class={{control.class}} aria-hidden="true" placement="bottom"
-                                ngbTooltip="{{control.label}}"></i>
-                              {{ control.label }}
-                            </button>
-                          </div>
-                        </div>
-
-
-
-                        <!-- <i class="fa fa-text-width" aria-hidden="true"
-                        (click)="addControl(layoutIndex, colIndex, controls[1])"></i>
-                      <i class="fa fa-th-list" aria-hidden="true"
-                        (click)="addControl(layoutIndex, colIndex, controls[3])"></i>
-                      <i class=" fa fa-plus-square-o" aria-hidden="true"
-                        (click)="addControl(layoutIndex, colIndex, control)"></i>
-                      <i class=" fa fa-caret-down" aria-hidden="true" id=" dropdownControls" ngbDropdownToggle></i>
-                      
-                      <div ngbDropdownMenu aria-labelledby="dropdownControls">
-                        <button *ngFor="let control of controls" ngbDropdownItem
-                          (click)="addControl(layoutIndex, colIndex, control)">
-                          {{ control.name }}
-                        </button>
-                      </div> -->
-                      </div>
-                    </div>
-                    <!-- End: Form controls-->
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div class="row">
+      <div class="col-12 form-template-content">
+        <app-form-template-item></app-form-template-item>
       </div>
     </div>
   </div>

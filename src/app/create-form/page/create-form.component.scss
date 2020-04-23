@@ -197,3 +197,16 @@
   -moz-box-shadow: 0 0 10px 1px rgba(48, 113, 169, 0.6);
   box-shadow: 0 0 10px 1px rgba(48, 113, 169, 0.6);
 }
+
+.ck .ck-insert-table-dropdown__grid {
+  width: 168px;
+  padding: 0px;
+}
+
+.ck .ck-insert-table-dropdown-grid-box {
+  width: 10px;
+  height: 10px;
+  margin: 3px;
+  border: 1px solid;
+  border-radius: 2px;
+}

@@ -27,6 +27,7 @@ import { HeaderComponent } from './layouts/header/header.component';
 import { SidebarComponent } from './layouts/sidebar/sidebar.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FormioModule } from 'angular-formio';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 export const metaReducers: MetaReducer<any>[] = !environment.production
   ? [storeFreeze]
@@ -52,6 +53,7 @@ export const metaReducers: MetaReducer<any>[] = !environment.production
     AppRoutingModule,
     DragDropModule,
     FormioModule,
+    CKEditorModule
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: AppRouterStateSerializer },

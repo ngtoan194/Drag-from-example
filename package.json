@@ -32,6 +32,8 @@
     "@ngrx/store-devtools": "^8.6.0",
     "@ngx-translate/core": "11.0.1",
     "@ngx-translate/http-loader": "4.0.0",
+    "@ckeditor/ckeditor5-angular": "^1.2.2",
+    "@ckeditor/ckeditor5-build-classic": "^17.0.0",
     "angular-formio": "^4.5.9",
     "chart.js": "2.7.3",
     "core-js": "2.5.7",

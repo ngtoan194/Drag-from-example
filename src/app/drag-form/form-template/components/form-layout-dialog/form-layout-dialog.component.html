@@ -1,0 +1,517 @@
+<h2 mat-dialog-title>Config {{data.layoutType}}</h2>
+<div mat-dialog-content style="min-width: 480px">
+  <!--Layout-->
+  <form 
+    name="dialogForm"
+    id="dialogForm" 
+    *ngIf="data.layoutType === 'LAYOUT'" 
+    class="form-block" 
+    [formGroup]="layoutForm"
+    (ngSubmit)="onSave(layoutForm)"
+  >
+    <app-form-layout-item
+      *ngIf="data.layouts.length > 0"
+      [layouts]="data.layouts"
+      formControlName="id"
+      >
+    </app-form-layout-item>
+  </form>
+  <!--End: Layout-->
+
+  <!--Table-->
+  <form 
+    name="dialogForm" 
+    id="dialogForm"
+    *ngIf="data.layoutType === 'TABLE'" 
+    class="form-block" 
+    [formGroup]="tableForm"
+    (ngSubmit)="onSave(tableForm)"
+  >
+    <div class="form-group">
+      <label for="rows">Name</label>
+      <input 
+        type="text" 
+        class="form-control form-control-sm" 
+        formControlName="name" 
+        id="name" 
+      />
+    </div>
+    <div class="form-group">
+      <label for="columns">Data source</label>
+      <input 
+        type="text" 
+        class="form-control form-control-sm" 
+        formControlName="dataSource" 
+        id="dataSource" 
+      />
+    </div>
+    <div>
+      <label class="col-form-label">
+        Header
+      </label>
+      <div style="border: dashed 1px #dfe6ea; padding: 10px;">
+        <div class="form-row head-title">
+          <div class="col-md-11"><label><strong>Label</strong></label></div>
+          <div class="col-md-1 text-right"><label><strong>#</strong></label></div>
+        </div>
+        <div formArrayName="columns">
+          <div *ngFor="let column of tableFormColumns.controls; let i = index;">
+              <div [formGroupName]="i" class="form-row">
+                <div class="col-md-11 form-group">
+                  <input 
+                    id="label{{i}}"
+                    type="text" 
+                    class="form-control form-control-sm"
+                    formControlName="columnName"
+                  >
+                </div>
+                <div class="col-md-1 text-right">
+                  <span class="form-array-actions" (click)="onRemoveColumn(i)">
+                    <i class="fa fa-minus-circle ico-danger"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          <span 
+            class="magic-button for-child" 
+            title="Click to add tab" 
+            (click)="onCreateColumn()"
+          >
+            <i class="fa fa-plus"></i>  Add cloumn
+          </span>
+        </div>
+      </div>
+    </div>
+  </form>
+  <!--End: Table-->
+
+  <!--Panel-->
+  <form 
+    name="dialogForm" 
+    id="dialogForm"
+    *ngIf="data.layoutType === 'PANEL'" 
+    class="form-block" 
+    [formGroup]="panelForm"
+    (ngSubmit)="onSave(panelForm)"
+  >
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input 
+        type="text" 
+        class="form-control form-control-sm" 
+        formControlName="title" 
+        id="title" 
+      />
+    </div>
+  </form>
+  <!--End: Panel-->
+
+  <!--Tab-->
+  <form 
+    name="dialogForm" 
+    id="dialogForm"
+    *ngIf="data.layoutType === 'TAB'" 
+    class="form-block" 
+    [formGroup]="tabForm"
+    (ngSubmit)="onSave(tabForm)"
+  >
+    <div class="form-row head-title">
+      <div class="col-md-9"><label><strong>Title</strong></label></div>
+      <div class="col-md-2"><label><strong>Order</strong></label></div>
+      <div class="col-md-1 text-right"><label><strong>#</strong></label></div>
+    </div>
+
+    <div formArrayName="items">
+      <div  *ngFor="let tab of tabFormItems.controls; let i = index;">
+        <div [formGroupName]="i">
+          <div class="form-row">
+            <div class="form-group col-md-9">
+              <input type="text" class="form-control form-control-sm" id="title{{i}}" formControlName="title">
+            </div>
+            <div class="form-group col-md-2">
+              <input type="number" class="form-control form-control-sm" id="displayOrder{{i}}" formControlName="displayOrder">
+            </div>
+            <div class="col-md-1 text-right">
+              <span class="form-array-actions" (click)="onRemoveTab(i)">
+                <i class="fa fa-minus-circle ico-danger"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <span 
+      *ngIf="tabForm.controls.items.value.length < 5" 
+      class="magic-button for-child" 
+      title="Click to add tab" 
+      (click)="onCreateTab()"
+    >
+      <i class="fa fa-plus"></i> Add new tab
+    </span>
+  </form>
+  <!--End: Tab-->
+
+  <!--Control-->
+  <form 
+    name="dialogForm" 
+    id="dialogForm"
+    *ngIf="data.layoutType === 'CONTROL'" 
+    class="form-block" 
+    [formGroup]="controlForm"
+    (ngSubmit)="onSave(controlForm)"
+  >
+    <div class="form-group" >
+      <label class="col-form-label">
+        Vertical / Horizontal
+      </label>
+      <div class="form-group">
+        <select class="form-control form-control-sm" formControlName="isHorizontal">
+          <option value=false>Vertical</option>
+          <option value=true>Horizontal</option>
+        </select>
+      </div>
+    </div>
+    <div 
+      class="form-group required" 
+      *ngIf="data.data.type === 'label' ||
+            data.data.type === 'text' || 
+            data.data.type === 'textarea' || 
+            data.data.type === 'select' ||
+            data.data.type === 'checkbox' || 
+            data.data.type === 'radio' ||
+            data.data.type === 'date' ||
+            data.data.type === 'selectBoxes' ||
+            data.data.type === 'url' ||
+            data.data.type === 'file'"
+            >
+      <div class="form-group required">
+        <div *ngIf="data.data.type === 'label'">
+          <label class="col-form-label  field-required">
+            Label
+          </label>
+          <div class="form-group">
+            <ckeditor [editor]="editor" formControlName="name" ></ckeditor>
+          </div>
+        </div>
+        <div *ngIf="data.data.type !== 'label'" class="row">
+          <div class="col-md-5">
+            <label class="col-form-label  field-required">
+              Label
+            </label>
+            <div class="form-group">
+              <input 
+                class="form-control form-control-sm" 
+                placeholder="Field Label" 
+                type="text" 
+                formControlName="name"
+              >
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label class="col-form-label  field-required">
+              Size
+            </label>
+            <div class="form-group">
+              <select class="form-control form-control-sm" formControlName="fontSize">
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="14">14</option>
+                <option value="16">16</option>
+                <option value="18">18</option>
+                <option value="20">20</option>
+                <option value="22">22</option>
+                <option value="24">24</option>
+                <option value="26">26</option>
+                <option value="28">28</option>
+                <option value="36">36</option>
+                <option value="48">48</option>
+                <option value="72">72</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <label class="col-form-label field-required">
+              Display
+            </label>
+            <div class="form-group">
+              <select class="form-control form-control-sm" formControlName="disabled">
+                <option value=false>Show</option>
+                <option value=true>Hide</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" *ngIf="f['disabled'].value === 'true' || f['disabled'].value === true">
+      <div class="form-check checkbox">
+        <label class="form-check-label">
+          <input 
+            class="form-check-input form-control-sm" 
+            type="checkbox"
+            formControlName="isInline" 
+          >
+          <span>isInline</span>
+        </label>
+      </div>
+    </div>
+    <div class="form-group" *ngIf="data.data.type === 'text' || data.data.type === 'textarea'">
+      <label class="col-form-label">
+        Width
+      </label>
+      <div class="form-group">
+        <input 
+          class="form-control form-control-sm"
+          placeholder="Width" 
+          type="text" 
+          formControlName="width"
+        >
+      </div>
+    </div>
+    <div class="form-group" *ngIf="data.data.type === 'text' || data.data.type === 'textarea'">
+      <label class="col-form-label">
+        Placeholder
+      </label>
+      <div class="form-group">
+        <input 
+          class="form-control form-control-sm"
+          placeholder="Placeholder" 
+          type="text" 
+          formControlName="placeholder"
+        >
+      </div>
+    </div>
+    <div class="form-group" *ngIf="data.data.type === 'text' || data.data.type === 'textarea'">
+      <label class="col-form-label">
+        Description
+      </label>
+      <div class="form-group">
+        <input 
+          class="form-control form-control-sm" 
+          placeholder="Description for this field."  
+          type="text"
+          formControlName="description"
+        >
+      </div>
+    </div>
+    <div class="form-group" *ngIf="data.data.type === 'text' || data.data.type === 'textarea'">
+      <label class="col-form-label">
+        Default Value
+      </label>
+      <div class="form-group">
+        <input  
+          class="form-control form-control-sm" 
+          placeholder="Default Value" 
+          type="text"
+          formControlName="defaultValue"
+        >
+      </div>
+    </div>
+    <div class="form-group" *ngIf="data.data.type !== 'label'">
+      <div class="form-check checkbox">
+        <label class="form-check-label">
+          <input 
+            class="form-check-input form-control-sm" 
+            type="checkbox"
+            formControlName="required" 
+          >
+          <span>Required</span>
+        </label>
+      </div>
+      <div class="form-group">
+        <input  
+          *ngIf="f['required'].value"
+          class="form-control form-control-sm" 
+          placeholder="Message required" 
+          type="text"
+          formControlName="messageRequired"
+        >
+      </div>
+    </div>
+    <div class="form-group" *ngIf="data.data.type === 'text' || data.data.type === 'textarea'">
+      <div class="form-check checkbox">
+        <label class="form-check-label">
+          <input 
+            class="form-check-input"
+            type="checkbox" 
+            formControlName="unique" 
+          >
+          <span>Unique</span>
+        </label>
+      </div>
+      <div class="form-group">
+        <input  
+          *ngIf="f['unique'].value"
+          class="form-control form-control-sm" 
+          placeholder="Message unique" 
+          type="text"
+          formControlName="messageUnique"
+        >
+      </div>
+    </div>
+    <div class="form-group" *ngIf="data.data.type === 'text' || data.data.type === 'textarea'">
+      <label class="col-form-label">
+        Minimum Length
+      </label>
+      <div class="form-group">
+        <input 
+          class="form-control form-control-sm" 
+          placeholder="Minimum Length" 
+          type="text"
+          formControlName="minimumLength" 
+          pattern="[0-9.]*"
+        >
+      </div>
+      <div class="massage-max-min-length" *ngIf="f['minimumLength'].value && data.data.type === 'text'  || f['minimumLength'].value && data.data.type === 'textarea'">
+        <label class="col-form-label">
+          Message minimum Length
+        </label>
+        <div class="form-group">
+          <input 
+            class="form-control form-control-sm" 
+            placeholder="Message minimum Length" 
+            type="text"
+            formControlName="messageMinimumLength" 
+          >
+        </div>
+      </div>
+    </div>
+    <div class="form-group" *ngIf="data.data.type === 'text'  || data.data.type === 'textarea'">
+      <label class="col-form-label">
+        Maximum Length
+      </label>
+      <div class="form-group">
+        <input 
+          class="form-control form-control-sm"
+          placeholder="Maximum Length" 
+          type="text"
+          formControlName="maximumLength" 
+          pattern="[0-9.]*"
+        >
+      </div>
+      <div class="massage-max-min-length" *ngIf="f['maximumLength'].value && data.data.type === 'text' || f['maximumLength'].value && data.data.type === 'textarea'">
+        <label class="col-form-label">
+          Message maximum Length
+        </label>
+        <div class="form-group">
+          <input 
+            class="form-control form-control-sm"
+            placeholder="Message maximum Length" 
+            type="text"
+            formControlName="messageMaximumLength" 
+          >
+        </div>
+      </div>
+    </div>
+    
+    <div 
+      *ngIf="data.data.type === 'radio' ||
+              data.data.type === 'selectBoxes' || 
+              data.data.type === 'select' "
+      >
+      <label class="col-form-label">
+        Values  
+      </label>
+      <div style="border: dashed 1px #dfe6ea; padding: 10px;">
+        <div class="form-row head-title">
+          <div [ngClass]="data.data.type === 'radio' ? 'col-md-6' : data.data.type === 'select' ? 'col-md-6' : 'col-md-4'"><label><strong>Label</strong></label></div>
+          <div [ngClass]="data.data.type === 'radio' ? 'col-md-5' : data.data.type === 'select' ? 'col-md-5'  : 'col-md-4'"><label><strong>Value*</strong></label></div>
+          <div *ngIf="data.data.type === 'selectBoxes'" class="col-md-3"><label><strong>Name*</strong></label></div>
+          <div class="col-md-1 text-right"><label><strong>#</strong></label></div>
+        </div>
+    
+        <div formArrayName="options">
+          <div *ngFor="let radio of controlFormOptions.controls; let i = index;">
+              <div [formGroupName]="i" class="form-row">
+                <div [ngClass]="data.data.type === 'radio' ? 'col-md-6' : data.data.type === 'select' ? 'col-md-6' : 'col-md-4'" class="form-group">
+                  <input 
+                    id="label{{i}}"
+                    type="text" 
+                    class="form-control form-control-sm"
+                    formControlName="label"
+                  >
+                </div>
+                <div [ngClass]="data.data.type === 'radio' ? 'col-md-5' : data.data.type === 'select' ? 'col-md-5' : 'col-md-4'" class="form-group">
+                  <input 
+                    id="value{{i}}"
+                    type="text" 
+                    class="form-control form-control-sm" 
+                    formControlName="value"
+                  >
+                </div>
+                <div *ngIf="data.data.type === 'selectBoxes'" class="form-group col-md-3">
+                  <input 
+                    id="name{{i}}"
+                    type="text" 
+                    class="form-control form-control-sm" 
+                    formControlName="name"
+                  >
+                </div>
+                <div class="col-md-1 text-right">
+                  <span class="form-array-actions" (click)="onRemoveOption(i)">
+                    <i class="fa fa-minus-circle ico-danger"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          <span 
+            class="magic-button for-child" 
+            title="Click to add tab" 
+            (click)="onCreateOption()"
+          >
+            <i class="fa fa-plus"></i>  Add Another
+          </span>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="data.data.type === 'file'">
+      <label class="col-form-label">
+        File type  
+      </label>
+      <div style="border: dashed 1px #dfe6ea; padding: 10px;">
+        <div class="form-row head-title">
+          <div class="col-md-10"><label><strong>File name extension</strong></label></div>
+          <div class="col-md-2 text-right"><label><strong>#</strong></label></div>
+        </div>
+        <div formArrayName="options">
+          <div *ngFor="let radio of controlFormOptions.controls; let i = index;">
+              <div [formGroupName]="i" class="form-row">
+                <div class="form-group col-md-10">
+                  <input 
+                    id="label{{i}}"
+                    type="text" 
+                    class="form-control form-control-sm"
+                    formControlName="file"
+                  >
+                </div>
+                <div class="col-md-2 text-right">
+                  <span class="form-array-actions" (click)="onRemoveOption(i)">
+                    <i class="fa fa-minus-circle ico-danger"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          <span 
+            class="magic-button for-child" 
+            title="Click to add tab" 
+            (click)="onCreateOption()"
+          >
+            <i class="fa fa-plus"></i>  Add file name extension
+          </span>
+        </div>
+      </div>
+    </div>
+  </form>
+  <!--End: Control-->
+</div>
+
+<div mat-dialog-actions style="display: block; text-align: center;margin-bottom: -10px;">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button class="btn btn-sm btn-primary" type="submit" form="dialogForm">
+    OK
+  </button>
+</div>

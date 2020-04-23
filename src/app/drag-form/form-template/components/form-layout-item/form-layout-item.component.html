@@ -1,1 +1,20 @@
-<p>form-layout-item works!</p>
+<div class="form-layouts">
+  <div 
+    class="form-layouts-item" 
+    *ngFor="let layout of layouts;"  
+    (click)="selectLayout(layout)"
+    [class.active]="existsInLayouts(layout)"
+  >
+    <div class="row">
+      <div 
+        class="layout-col" 
+        *ngFor="let column of layout.columns; let colIndex = index;" 
+        [ngClass]="column.type"
+      >
+        <div class="none-element">
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

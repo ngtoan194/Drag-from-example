@@ -1,0 +1,633 @@
+<div class="row">
+
+  <!--Sidebar-->
+  <div class="col-md-3 d-none d-md-block bg-light sidebar">
+    <div class="sidebar-sticky">
+      <div class="form-element-settings">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" value="{{formTemplate.name}}" class="form-control form-control-sm" id="name" placeholder="Name">
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea class="form-control form-control-sm" id="description"
+            placeholder="Description">{{formTemplate.description}}</textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="version">Version</label>
+          <select class="form-control form-control-sm" id="version" >
+            <option value="1" selected>Version 1</option>
+            <option value="2">Version 2</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--End: Sidebar-->
+
+  <!--Form-builder-->
+  <div class="col-md-9 form-builder">
+
+    <!--Nav-->
+    <div class="bg-white shadow-sm">
+      <nav class="nav nav-underline">
+        <a class="nav-link active">Form Builder</a>
+      </nav>
+    </div>
+    <!--End: Nav-->
+
+    <!--Main-->
+    <div class="row" >
+      <div class="col-md-12">
+        <!--Layouts list-->
+        <div 
+          *ngIf="formTemplate.layouts.length > 0" 
+          cdkDropList class="layout-list" 
+          (cdkDropListDropped)="dropLayout($event)"
+          cdkDropListOrientation="vertical"
+        >
+          <div 
+            class="layout-box" 
+            *ngFor="let layout of formTemplate.layouts; let layoutIndex = index;" 
+            cdkDrag
+          >
+          <div class="element-action for-layout">
+            <span class="bg-danger" (click)="onRemoveLayout(layout.uId)" ngbTooltip="Click to remove this row">
+              <i class="fa fa-remove"></i>
+            </span>
+          </div>
+            <!--Drag place holder-->
+            <div class="layout-custom-placeholder" *cdkDragPlaceholder></div>
+            <!--End: Drag place holder-->
+
+            <!--List columns of layout-->
+            <div class="row">
+              <div 
+                class="layout-col" 
+                *ngFor="let column of layout.columns; let colIndex = index;" 
+                [ngClass]="column.type"
+              >
+                <div class="none-element" *ngIf="!column.control && !column.tab && !column.table && !column.panel">
+                  <!--Recent control...-->
+                  <span 
+                    class="fa fa-list-alt" 
+                    title="Panel" 
+                    ngbTooltip="Panel"
+                    (click)="onAddColumnElement('PANEL', column.uId, null)"
+                  >
+                  </span>
+
+                  <span 
+                    class="fa fa-folder-o" 
+                    title="Tab" 
+                    ngbTooltip="Tab"
+                    (click)="onAddColumnElement('TAB', column.uId, null)"
+                  >
+                  </span>
+
+                  <!-- <span 
+                    class="fa fa-terminal" 
+                    title="Text input" 
+                    ngbTooltip="Text Input"
+                    (click)="onAddColumnElement('CONTROL', column.uId, 'text')"
+                  >
+                  </span>
+
+                  <span 
+                    class="fa fa-th-list" 
+                    title="Dropdown Select" 
+                    ngbTooltip="Dropdown Select"
+                    (click)="onAddColumnElement('CONTROL', column.uId, 'select')"
+                  >
+                  </span> -->
+
+                  <span 
+                    class="fa fa-stop" 
+                    title="Button" 
+                    ngbTooltip="Button"
+                    (click)="onAddColumnElement('CONTROL', column.uId, 'button')"
+                  >
+                  </span>
+                  <!--End: Recent control...-->
+
+                  <!--Show more control-->
+                  <div ngbDropdown class="d-inline-block show-more-controls">
+                    <span id="{{column.uId}}" ngbDropdownToggle>More</span>
+                    <div ngbDropdownMenu [attr.aria-labelledby]="column.uId">
+                      <span ngbDropdownItem (click)="onAddColumnElement('CONTROL', column.uId, 'label')">Label</span>
+                      <span ngbDropdownItem (click)="onAddColumnElement('CONTROL', column.uId, 'text')">Text Field</span>
+                      <span ngbDropdownItem (click)="onAddColumnElement('CONTROL', column.uId, 'textarea')">Text Area</span>
+                      <span ngbDropdownItem (click)="onAddColumnElement('CONTROL', column.uId, 'number')">Number</span>
+                      <span ngbDropdownItem (click)="onAddColumnElement('CONTROL', column.uId, 'password')">Password</span>
+                      <span ngbDropdownItem (click)="onAddColumnElement('CONTROL', column.uId, 'url')">Url</span>
+                      <span ngbDropdownItem (click)="onAddColumnElement('CONTROL', column.uId, 'checkbox')">Checkbox</span>
+                      <span ngbDropdownItem (click)="onAddColumnElement('CONTROL', column.uId, 'selectBoxes')">Select Boxes</span>
+                      <span ngbDropdownItem (click)="onAddColumnElement('CONTROL', column.uId, 'select')">Select</span>
+                      <span ngbDropdownItem (click)="onAddColumnElement('CONTROL', column.uId, 'radio')">Radio</span>
+                      <span ngbDropdownItem (click)="onAddColumnElement('CONTROL', column.uId, 'date')">Date</span>
+                      <span ngbDropdownItem (click)="onAddColumnElement('CONTROL', column.uId, 'file')">File</span>                      
+                      <span ngbDropdownItem (click)="onAddColumnElement('TABLE', column.uId, null)">Table</span>
+                      <!-- <span ngbDropdownItem (click)="onAddColumnElement('TAB', column.uId, null)">Tab</span> -->
+                    </div>
+                  </div>
+                  <!--End: Show more control-->
+                </div>
+
+                <!--If control-->
+                <div class="has-element controls" *ngIf="column.control;">
+                  <div class="element-action for-control">
+                    <span (click)="onRemoveColumnElement('CONTROL', column.uId)" class="bg-danger">
+                      <i class="fa fa-remove"></i>
+                    </span>
+
+                    <span (click)="onEditColumnElement('CONTROL', column.uId, column.control)">
+                      <i class="fa fa-cog"></i>
+                    </span>
+                  </div>
+                  <div [ngClass]="column.control.isHorizontal ? 'container' : ''">
+                    <div [ngClass]="column.control.isHorizontal ? 'form-group row' : ''">
+                      <label 
+                        for="{{column.control.uId}}"
+                        [style.font-size.px]="column.control.fontSize"
+                        [style.display]="column.control.disabled ? 'none' : 'block'"
+                        [ngClass]="column.control.isHorizontal ? 'col-sm-2 col-form-label' : ''"
+                        *ngIf="column.control.type === 'text' || 
+                                column.control.type === 'textarea' ||
+                                column.control.type === 'number' ||
+                                column.control.type === 'password' ||
+                                column.control.type === 'selectBoxes' ||
+                                column.control.type === 'select' ||
+                                column.control.type === 'radio' ||
+                                column.control.type === 'date' ||
+                                column.control.type === 'url' ||
+                                column.control.type === 'file' ||
+                                column.control.type === 'table'"
+                        >
+                        {{column.control.name}}
+                      </label>
+                      <div 
+                        *ngIf="column.control.type === 'label'"
+                        [innerHTML]="column.control.name">
+                      </div>
+                      
+                      <div [ngClass]="column.control.isHorizontal ? 'col-sm-10' : ''">
+                        <!--Input text // Number // Password // url-->
+                        <input 
+                          *ngIf="column.control.type==='text' || column.control.type==='number' || column.control.type==='password' || column.control.type==='url'"
+                          type="{{column.control.type}}" 
+                          id="{{column.control.uId}}" 
+                          placeholder="{{column.control.placeholder}}" 
+                          class="form-control form-control-sm" 
+                          [style.display]="column.control.isInline ? 'inline !important' : ''"
+                          [style.width.px]="column.control.width ? column.control.width : ''"
+                        />
+                        <!--End: Input text-->
+  
+                        <!--Input date-->
+                        <!-- <input 
+                          *ngIf="column.control.type==='date'"
+                          type="{{column.control.type}}" 
+                          id="{{column.control.uId}}" 
+                          class="form-control form-control-sm" 
+                        /> -->
+                        <!-- Input date -->
+                        <div class="input-group" *ngIf="column.control.type === 'date'">
+                          <input 
+                            class="form-control form-control-sm" 
+                            placeholder="dd-MM-yyyy" 
+                            name="dp"
+                            ngbDatepicker 
+                            #d="ngbDatepicker"
+                          >
+                          <div class="input-group-append">
+                              <button class="btn btn-outline-secondary calendar"
+                                  (click)="d.toggle()" type="button">
+                                  <i class="fa fa-calendar" aria-hidden="true"></i></button>
+                          </div>
+                        </div>      
+                        <!--End: Input date-->
+  
+                        <!--Select-->
+                        <select 
+                          *ngIf="column.control.type==='select'"
+                          class="form-control form-control-sm"
+                          id="{{column.control.uId}}"
+                        >
+                          <option *ngFor="let select of column.control.options" value="{{select.value}}">{{select.label}}</option>
+                        </select>
+                        <!--End: Select-->
+  
+                        <!--Textarea-->
+                        <textarea 
+                          *ngIf="column.control.type==='textarea'"
+                          class="form-control form-control-sm"
+                          id="{{column.control.uId}}"
+                          [style.width.px]="column.control.width ? column.control.width : ''"
+                        >
+                        </textarea>
+                        <!--End: Textarea-->
+  
+                        <!--Radio-->
+                        <div class="form-radio radio" *ngIf="column.control.type==='radio'">
+                          <div class="form-check" *ngFor="let radio of column.control.options">
+                            <label class="form-check-label label-position-right">
+                              <input 
+                                class="form-check-input" 
+                                value="{{radio.value}}" 
+                                type="{{column.control.type}}" 
+                                name="radio"
+                              >
+                              <span>{{radio.label}}</span>
+                            </label>
+                          </div>
+                        </div>
+                        <!--End: Radio-->
+  
+                        <!--Select Boxes-->
+                        <div class="form-radio radio" *ngIf="column.control.type==='selectBoxes'">
+                          <div class="form-check"  *ngFor="let select of column.control.options">
+                              <label class="form-check-label label-position-right">
+                                  <input 
+                                    class="form-check-input"   
+                                    value="{{select.value}}" 
+                                    type="checkbox" 
+                                    name="{{select.name}}"
+                                  >
+                                  <span>{{select.label}}</span>
+                              </label>
+                          </div>
+                        </div>
+                        <!--End: Select Boxes-->
+
+                        <!--File-->
+                        <input *ngIf="column.control.type==='file'"
+                          class="form-control-file"  
+                          type="{{column.control.type}}"  
+                          id="{{column.control.uId}}" 
+                          (change)="fileChange($event)"
+                          accept="{{acceptFile}}"
+                          >
+                        <!--End: File-->
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--Checkbox-->
+                  <div class="form-group" *ngIf="column.control.type === 'checkbox'">
+                    <div class="form-check checkbox">
+                      <label class="form-check-label">
+                        <input 
+                          class="form-check-input"
+                          type="{{column.control.type}}"  
+                        >
+                        <span>{{column.control.name}}</span>
+                      </label>
+                    </div>
+                  </div>
+                  <!--End: Checkbox-->
+
+                  <!--Button-->
+                  <div class="text-center" *ngIf="column.control.type === 'button'">
+                    <button
+                      *ngIf="column.control.type==='button'"
+                      class="btn btn-primary btn-sm"
+                      id="{{column.control.uId}}"
+                    >
+                      {{column.control.name}}
+                    </button>
+                  </div>
+                  <!--End: Button-->
+
+                </div>
+                <!--End: If control-->
+
+                <!--If Panel-->
+                <div class="has-element panel" *ngIf="column.panel">
+                  <div class="element-action for-panel">
+                    <span (click)="onRemoveColumnElement('PANEL', column.uId)" class="bg-danger">
+                      <i class="fa fa-remove"></i>
+                    </span>
+                    <span (click)="onEditColumnElement('PANEL', column.uId, column.panel)">
+                      <i class="fa fa-cog"></i>
+                    </span>
+                  </div>
+                  <div class="card">
+                    <div class="card-header">{{ column.panel.title }}</div>
+                    <div class="card-body"> 
+                      <div class="has-layout" *ngIf="column.panel.layouts.length > 0">
+                        <div 
+                          class="layout-box" 
+                          *ngFor="let layoutPanel of column.panel.layouts; let layoutPanelIndex = index;"
+                        >
+                        <div class="element-action for-layout">
+                          <span class="bg-danger" (click)="onRemoveLayout(layoutPanel.uId)" ngbTooltip="Click to remove this row">
+                            <i class="fa fa-remove"></i>
+                          </span>
+                        </div>
+                          <!--Row in panel-->
+                          <div class="row">
+                            <div 
+                              class="layout-col" 
+                              *ngFor="let panelColumn of layoutPanel.columns; let panelColIndex = index;" 
+                              [ngClass]="panelColumn.type"
+                            >
+                              <div class="none-element" *ngIf="!panelColumn.control">
+                                <!--Recent control...-->
+                                <span 
+                                  class="fa fa-terminal" 
+                                  title="Text input" 
+                                  ngbTooltip="Click to add Text Input"
+                                  (click)="onAddColumnElement('CONTROL', panelColumn.uId, 'text')"
+                                  >
+                                </span>
+
+                                <span 
+                                  class="fa fa-th-list" 
+                                  title="Dropdown select" 
+                                  ngbTooltip="Click to add Dropdown Select"
+                                  (click)="onAddColumnElement('CONTROL', panelColumn.uId, 'select')"
+                                  >
+                                </span>
+
+                                <span 
+                                  class="fa fa-stop" 
+                                  title="Button" 
+                                  ngbTooltip="Click to add Button"
+                                  (click)="onAddColumnElement('CONTROL', panelColumn.uId, 'button')"
+                                  >
+                                </span>
+                                <!--End: Recent control...-->
+
+                                <!--Show more control-->
+                                <div ngbDropdown class="d-inline-block show-more-controls">
+                                  <span id="{{panelColumn.uId}}" ngbDropdownToggle>More</span>
+                                  <div ngbDropdownMenu [attr.aria-labelledby]="panelColumn.uId">
+                                    <span ngbDropdownItem (click)="onAddColumnElement('CONTROL', panelColumn.uId, 'date')">Date</span>
+                                    <span ngbDropdownItem (click)="onAddColumnElement('CONTROL', panelColumn.uId, 'radio')">Radio</span>
+                                    <span ngbDropdownItem (click)="onAddColumnElement('CONTROL', panelColumn.uId, 'checkbox')">Checkbox</span>
+                                    <span ngbDropdownItem (click)="onAddColumnElement('TABLE', panelColumn.uId, null)">Table</span>
+                                  </div>
+                                </div>
+                                <!--End: Show more control-->
+                              </div>
+
+                              <div class="has-element controls" *ngIf="panelColumn.control">
+                                <div class="element-action for-control">
+                                  <span (click)="onRemoveColumnElement('CONTROL', panelColumn.uId)" class="bg-danger">
+                                    <i class="fa fa-remove"></i>
+                                  </span>
+                                  <span (click)="onEditColumnElement('CONTROL', panelColumn.uId, panelColumn.control)">
+                                    <i class="fa fa-cog"></i>
+                                  </span>
+                                </div>
+
+                                <label for="{{panelColumn.control.uId}}">{{panelColumn.control.name}}</label>
+                                <!--Input text-->
+                                <input 
+                                  *ngIf="panelColumn.control.type==='text'"
+                                  type="{{panelColumn.control.type}}" 
+                                  id="{{panelColumn.control.uId}}" 
+                                  placeholder="{{panelColumn.control.placeholder}}" 
+                                  class="form-control form-control-sm" 
+                                />
+                                <!--End: Input text-->
+
+                                <!--Select-->
+                                <select 
+                                  *ngIf="panelColumn.control.type==='select'"
+                                  class="form-control form-control-sm"
+                                  id="{{panelColumn.control.uId}}"
+                                >
+                                  <option>test</option>
+                                </select>
+                                <!--End: Select-->
+                              </div>
+
+                              <!-- <div class="text-center" *ngIf="panelColumn.control.type === 'button'">
+                                <button
+                                  *ngIf="panelColumn.control.type==='button'"
+                                  class="btn btn-primary btn-sm"
+                                  id="{{panelColumn.control.uId}}"
+                                >
+                                  {{panelColumn.control.name}}
+                                </button>
+                              </div> -->
+
+                            </div>
+                          </div>
+                          <!--End: Row in panel-->
+                        </div>
+                      </div>
+
+                      <div class="actions-block text-center">
+                        <button  
+                          class="btn btn-sm btn-primary magic-button for-child"
+                          title="Click to add row" 
+                          (click)="onCreateLayout('LAYOUT', column.uId, 'PANEL', null)"
+                        >
+                          <i class="fa fa-plus"></i> Add new row 
+                        </button>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <!--End: If Panel-->
+
+                <!--If Tab-->
+                <div class="has-element tab" *ngIf="column.tab">
+                  <div class="element-action for-tab">
+                    <span (click)="onRemoveColumnElement('TAB', column.uId)" class="bg-danger">
+                      <i class="fa fa-remove"></i>
+                    </span>
+                    <span (click)="onEditColumnElement('TAB', column.uId, column.tab)">
+                      <i class="fa fa-cog"></i>
+                    </span>
+                  </div>
+                  <ngb-tabset [destroyOnHide]="false">
+                    <ngb-tab *ngFor="let tab of column.tab.items; let tabIndex = index;" title="{{tab.title}}">
+                      <ng-template ngbTabContent>
+                        <div class="has-layout" *ngIf="tab.layouts && tab.layouts.length > 0">
+                          <div 
+                            class="layout-box" 
+                            *ngFor="let layoutTab of tab.layouts; let layoutTabIndex = index;"
+                          >
+                          <div class="element-action for-layout">
+                            <span class="bg-danger" (click)="onRemoveLayout(layoutTab.uId)" ngbTooltip="Click to remove this row">
+                              <i class="fa fa-remove"></i>
+                            </span>
+                          </div>
+
+                            <!--Row in tab-->
+                            <div class="row">
+                              <div 
+                                class="layout-col" 
+                                *ngFor="let tabColumn of layoutTab.columns; let tabColIndex = index;" 
+                                [ngClass]="tabColumn.type"
+                              >
+                                <div class="none-element" *ngIf="!tabColumn.control">
+                                  <!--Recent control...-->
+                                  <span 
+                                    class="fa fa-terminal" 
+                                    title="Text input" 
+                                    ngbTooltip="Click to add Text Input"
+                                    (click)="onAddColumnElement('CONTROL', tabColumn.uId, 'text')"
+                                    >
+                                  </span>
+
+                                  <span 
+                                    class="fa fa-th-list" 
+                                    title="Dropdown select" 
+                                    ngbTooltip="Click to add Dropdown Select"
+                                    (click)="onAddColumnElement('CONTROL', tabColumn.uId, 'select')"
+                                    >
+                                  </span>
+
+                                  <span 
+                                    class="fa fa-stop" 
+                                    title="Button" 
+                                    ngbTooltip="Click to add Button"
+                                    (click)="onAddColumnElement('CONTROL', tabColumn.uId, 'button')"
+                                    >
+                                  </span>
+                                  <!--End: Recent control...-->
+
+                                  <!--Show more control-->
+                                  <div ngbDropdown class="d-inline-block show-more-controls">
+                                    <span id="{{tabColumn.uId}}" ngbDropdownToggle>More</span>
+                                    <div ngbDropdownMenu [attr.aria-labelledby]="tabColumn.uId">
+                                      <span ngbDropdownItem (click)="onAddColumnElement('CONTROL', tabColumn.uId, 'date')">Date</span>
+                                      <span ngbDropdownItem (click)="onAddColumnElement('CONTROL', tabColumn.uId, 'radio')">Radio</span>
+                                      <span ngbDropdownItem (click)="onAddColumnElement('CONTROL', tabColumn.uId, 'checkbox')">Checkbox</span>
+                                      <span ngbDropdownItem (click)="onAddColumnElement('TABLE', tabColumn.uId, null)">Table</span>
+                                    </div>
+                                  </div>
+                                  <!--End: Show more control-->
+                                </div>
+
+                                <div class="has-element controls" *ngIf="tabColumn.control">
+                                  <div class="element-action for-control">
+                                    <span (click)="onRemoveColumnElement('CONTROL', tabColumn.uId)" class="bg-danger">
+                                      <i class="fa fa-remove"></i>
+                                    </span>
+                
+                                    <span (click)="onEditColumnElement('CONTROL', tabColumn.uId, tabColumn.control)">
+                                      <i class="fa fa-cog"></i>
+                                    </span>
+                                  </div>
+                                  <label for="{{tabColumn.control.uId}}">{{tabColumn.control.name}}</label>
+                                  <!--Input text-->
+                                  <input 
+                                    *ngIf="tabColumn.control.type==='text'"
+                                    type="{{tabColumn.control.type}}" 
+                                    id="{{tabColumn.control.uId}}" 
+                                    placeholder="{{tabColumn.control.placeholder}}" 
+                                    class="form-control form-control-sm" 
+                                  />
+                                  <!--End: Input text-->
+  
+                                  <!--Select-->
+                                  <select 
+                                    *ngIf="tabColumn.control.type==='select'"
+                                    class="form-control form-control-sm"
+                                    id="{{tabColumn.control.uId}}"
+                                  >
+                                    <option>test</option>
+                                  </select>
+                                  <!--End: Select-->
+                                </div>
+
+                              </div>
+                            </div>
+                            <!--End: row in tab-->
+                          </div>
+                        </div>
+
+                        <div class="actions-block text-center">
+                          <button  
+                            class="btn btn-sm btn-primary magic-button for-child"
+                            title="Click to add row" 
+                            (click)="onCreateLayout('LAYOUT', column.uId, 'TAB', tabIndex)"
+                          >
+                            <i class="fa fa-plus"></i> Add new row 
+                          </button>
+                        </div>
+
+                      </ng-template>
+                    </ngb-tab>
+
+                  </ngb-tabset>
+                </div>
+                <!--End: If Tab-->
+
+                <!--Table-->
+                <div class="has-element tab" *ngIf="column.table">
+                  <div class="element-action for-tab">
+                    <span (click)="onRemoveColumnElement('TABLE', column.uId)" class="bg-danger">
+                      <i class="fa fa-remove"></i>
+                    </span>
+                    <span (click)="onEditColumnElement('TABLE', column.uId, column.table)">
+                      <i class="fa fa-cog"></i>
+                    </span>
+                  </div>
+                  <table class="table">
+                      <thead>
+                          <tr>
+                              <th *ngFor="let column of column.table.columns" scope="col">{{column.columnName}}</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th></th>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                          <!-- <tr *ngFor="let item of column.table.data; let i=index">
+                              <th scope="row">{{i + 1}}</th>
+                              <td *ngFor="let columns of column.table.columns">aaaa</td>
+                          </tr> -->
+                      </tbody>
+                  </table>
+                </div>
+                <!--End: Table-->
+
+
+              </div>
+            </div>
+            <!--End: List columns of layout-->
+          </div>
+        </div>
+        <!--End: Layouts list-->
+      </div>
+    </div>
+    <!--End Main-->
+
+    <!--Actions block-->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="actions-block actions-block-main text-center">
+          <button 
+          title="Click to add row"
+            class="btn btn-sm btn-primary magic-button" 
+            (click)="onCreateLayout('LAYOUT', null, null, null)"
+          >
+            <i class="fa fa-plus"></i> Add new row
+          </button>
+        </div>
+      </div>
+    </div>
+    <!--End: Actions block-->
+
+    <div class="row">
+      <div class="col-md-12">
+        <pre>
+          {{ formTemplate | json }}
+        </pre>
+      </div>
+    </div>
+  </div>
+  <!--End: Form-builder-->
+</div>

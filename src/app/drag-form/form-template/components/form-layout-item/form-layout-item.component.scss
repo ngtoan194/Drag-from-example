@@ -1,0 +1,35 @@
+:host {
+  display: block;
+}
+.form-layouts { 
+  &-item {
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    margin: 5px 0 10px;
+    border-radius: none;
+    font-size: 15px;
+    font-family: 'cornerstone';
+    padding: 8px;
+    border: dashed 1px #dfe6ea;
+    color: rgba(0, 0, 0, 0.87);
+    flex: 0 0 23%;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    &.active {
+      background: #ababab;
+      &:after {
+        content: '';
+        border-radius: 50%;
+        background: #19b55f url(/assets/images/checked.svg) no-repeat
+          center center;
+        width: 16px;
+        height: 16px;
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background-size: 10px;
+      }
+    }
+  }
+}

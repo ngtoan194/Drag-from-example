@@ -13,7 +13,9 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FormControlItemComponent } from './components/form-control-item/form-control-item.component';
 import { FormLayoutItemComponent } from './components/form-layout-item/form-layout-item.component';
 import { DialogControlComponent } from './containers/template/dialog-control/dialog-control.component';
-import { ControlDirectiveComponent } from 'src/app/shared/modules/control-directive/control-directive.component';
+import { FormTemplateItemComponent } from './components/form-template-item/form-template-item.component';
+import { FormLayoutDialogComponent } from './components/form-layout-dialog/form-layout-dialog.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 
 @NgModule({
@@ -23,7 +25,8 @@ import { ControlDirectiveComponent } from 'src/app/shared/modules/control-direct
     FormControlItemComponent,
     FormLayoutItemComponent,
     DialogControlComponent,
-    ControlDirectiveComponent
+    FormTemplateItemComponent,
+    FormLayoutDialogComponent
   ],
   imports: [
     LibsModule,
@@ -33,11 +36,12 @@ import { ControlDirectiveComponent } from 'src/app/shared/modules/control-direct
     DynamicFormModule,
     MatNativeDateModule,
     FormTemplateRoutingModule,
+    CKEditorModule
   ],
   entryComponents: [
     TemplateComponent,
     DialogControlComponent,
-    ControlDirectiveComponent
+    FormLayoutDialogComponent
   ],
   providers: [
     DropzonesService,
